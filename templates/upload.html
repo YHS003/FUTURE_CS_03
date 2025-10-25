@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Secure File Share - Upload</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+</head>
+<body>
+<main>
+  <h1>Secure File Share (AES-128)</h1>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul>
+      {% for category, msg in messages %}
+        <li><strong>{{ category }}</strong>: {{ msg }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  <section>
+    <h2>Upload a file (will be encrypted)</h2>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+      <input type="file" name="file" required>
+      <button type="submit">Upload & Encrypt</button>
+    </form>
+  </section>
+
+  <hr>
+  <section>
+    <h2>Stored files</h2>
+    {% if files %}
+      <ul>
+      {% for sname, meta in files.items() %}
+        <li>{{ meta.original_filename }} — <a href="/download/{{ sname }}">Download</a></li>
+      {% endfor %}
+      </ul>
+    {% else %}
+      <p>No files stored yet.</p>
+    {% endif %}
+  </section>
+</main>
+</body>
+</html>
